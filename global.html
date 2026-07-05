@@ -1,0 +1,132 @@
+<style>
+  //DNA
+  /* ===== BASE GLOBAL (ANTI-BUG) ===== */
+  html {
+    font-size: 16px;
+  }
+
+  /* body {
+    margin: 0;
+  } */
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+
+
+
+
+/*==== PADRÃO DE CORES====*/
+
+  :root {
+
+    /* ===== CORES BASE (GOV STYLE) ===== */
+
+    --blue-vivid-50: #1351b4;
+    --blue-vivid-60: #0c326f;
+
+    --gray-10: #f8f8f8;
+    --gray-80: #1f1f1f;
+    --gray-60: #555555;
+
+    --pure-0: #ffffff;
+
+    --border-default: #dcdcdc;
+
+    --success: #168821;
+    --danger: #e52207;
+    --warning: #ffcd07;
+    --info: #2670e8;
+
+
+    /* ===== PADRÂO UTILIZADO (SISTEMA ATUAL) ===== */
+
+    --cor-primaria: var(--blue-vivid-50);
+    --cor-secundaria: var(--blue-vivid-60);
+
+    --bg: var(--gray-10); /* background */
+    --card: var(--pure-0);
+
+    --texto: var(--gray-80);
+    --muted: var(--gray-60); /*Texto secundário*/
+
+    --borda: var(--border-default);
+
+    --cor-sucesso: var(--success);
+    --cor-erro: var(--danger);
+    --cor-aviso: var(--warning);
+
+
+    /* ===== INTERAÇÃO ===== */
+
+    --interactive: var(--blue-vivid-50);
+    --focus: rgba(19, 81, 180, 0.25);
+  }
+
+/*====FIM (PADRÃO DE CORES)====*/
+
+
+
+
+
+//FORMATAÇÃO
+
+  /* FORMATAÇÃO PARA BODY, TÍTULO E TEXTOS PADRÃO */
+  body {
+    font-family: "Rawline", "Open Sans", sans-serif;
+    background: var(--bg);
+    color: var(--texto);
+    line-height: 1.5;
+  }
+
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  p {
+    margin-bottom: 12px;
+    color: var(--muted);
+  }
+
+/* FIM (FORMATAÇÃO PARA BODY, TÍTULO E TEXTOS PADRÃO) */
+
+
+
+
+
+/*==== CARREGAMENTO ====*/
+  /* indicador do Carregamento */
+  .spinner {
+    border: 4px solid #eee;
+    border-top: 4px solid var(--cor-primaria);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+/*====FIM (CARREGAMENTO)====*/
+</style>

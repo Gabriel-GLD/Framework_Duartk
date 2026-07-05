@@ -1,0 +1,690 @@
+<script>
+  //====FUNÇÃO PARA BOTÃO ESCONDER SIDEBAR====
+
+      function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+
+      if (window.innerWidth <= 1030) {
+          sidebar.classList.toggle('open');
+      } else {
+          document.body.classList.toggle('sidebar-hidden');
+        }  
+    }
+
+
+
+
+  // colocar na sidebar para ativar controlar ela 
+
+  //    <button class="btn-header" onclick="toggleSidebar()">
+  //   ☰
+  // </button>
+
+
+
+
+
+
+
+
+  //====SCRIPT DO COLLAPSE (PARA ESCONDER CONTEÚDO)====
+
+    // GOV COLLAPSE
+   document.addEventListener("DOMContentLoaded", () => {
+
+      document.querySelectorAll(".gov-collapse").forEach(collapse => {
+
+        const header = collapse.querySelector(".gov-collapse-header");
+
+        header.addEventListener("click", () => {
+          collapse.classList.toggle("active");
+        });
+
+      });
+
+    });
+
+
+
+
+
+
+    // SCRIPT DO CHECKBOX PARA BLOQUEAR CONTEUDO
+
+  function aplicarBloqueio(checkbox) {
+
+    const nome = checkbox.dataset.lock;
+
+    // Todos os controladores deste grupo
+    const controladores = document.querySelectorAll(
+      `[data-lock="${nome}"]`
+    );
+
+    // Se pelo menos um estiver marcado, mantém bloqueado
+    const bloqueado = [...controladores].some(
+      c => c.checked
+    );
+
+    const areas = document.querySelectorAll(
+      `[data-lock-area="${nome}"]`
+    );
+
+    if (!areas.length) return;
+
+    areas.forEach(area => {
+
+      area.classList.toggle(
+        'locked',
+        bloqueado
+      );
+
+      // Só limpa quando passou de desbloqueado -> bloqueado
+      if (bloqueado && !area.dataset.lockedApplied) {
+
+        area.dataset.lockedApplied = "true";
+
+        area
+          .querySelectorAll(
+            'input, textarea, select'
+          )
+          .forEach(campo => {
+
+            // Não limpa os controladores
+            if (campo.matches('[data-lock]')) return;
+
+            if (
+              campo.type === 'checkbox' ||
+              campo.type === 'radio'
+            ) {
+
+              campo.checked = false;
+
+            }
+
+            else if (
+              campo.tagName === 'INPUT' ||
+              campo.tagName === 'TEXTAREA'
+            ) {
+
+              campo.value = '';
+
+            }
+
+            else if (
+              campo.tagName === 'SELECT'
+            ) {
+
+              campo.selectedIndex = 0;
+
+            }
+
+          });
+
+      }
+
+      // Remove a marca quando desbloquear totalmente
+      if (!bloqueado) {
+
+        delete area.dataset.lockedApplied;
+
+      }
+
+    });
+
+  }
+
+  // CLIQUE MANUAL
+    document.addEventListener('change', function(e) {
+
+      const checkbox = e.target;
+
+      if (!checkbox.matches('[data-lock]')) return;
+
+      aplicarBloqueio(checkbox);
+
+    });
+
+    // QUANDO A PÁGINA CARREGAR
+    document.addEventListener('DOMContentLoaded', () => {
+
+      document
+        .querySelectorAll('[data-lock]')
+        .forEach(aplicarBloqueio);
+
+    });
+
+
+
+
+
+
+    // BLOQUEAR O CHECKBOX BLOQUEADOR
+
+    document.addEventListener('change', function(e) {
+
+      const checkbox = e.target;
+
+      if (!checkbox.matches('[data-lock-controller]')) return;
+
+      const nome = checkbox.dataset.lockController;
+
+      const bloqueador = document.querySelector(
+        `[data-lock="${nome}"]`
+      );
+
+      if (!bloqueador) return;
+
+      // VERIFICA SE EXISTE ALGUM CONTROLLER MARCADO
+      const existeMarcado = [...document.querySelectorAll(
+        `[data-lock-controller="${nome}"]`
+      )].some(check => check.checked);
+
+      if (existeMarcado) {
+
+        bloqueador.checked = false;
+        bloqueador.disabled = true;
+
+      } else {
+
+        bloqueador.disabled = false;
+
+      }
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+    //====SCRIPT PARA O CHECKBOX DE GERENCIAR CONTEÚDO====
+
+
+        /* COMPONENTE GLOBAL */
+        /* CHECKBOX + ABAS DINÂMICAS */
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+          /* TODOS OS CHECKBOXES */
+          document
+            .querySelectorAll('[data-toggle]')
+            .forEach(checkbox => {
+
+              checkbox.addEventListener('change', function () {
+
+                const nome = this.dataset.toggle;
+
+                /* CARD/CONTAINER PAI */
+                const card =
+                  this.closest('.card');
+
+                /* ÁREA DAS ABAS */
+                const tabsArea =
+                  card.querySelector('.toggle-tabs');
+
+                /* CONTEÚDO */
+                const conteudo =
+                  card.querySelector(
+                    `[data-content="${nome}"]`
+                  );
+
+                if (!conteudo) return;
+
+
+
+
+
+                /* MARCOU */
+
+                if (this.checked) {
+
+                  /* cria aba se não existir */
+                  if (
+                    !card.querySelector(
+                      `[data-tab="${nome}"]`
+                    )
+                  ) {
+
+                    const tab =
+                      document.createElement('button');
+
+                    tab.className = 'toggle-tab';
+
+                    tab.dataset.tab = nome;
+
+                    tab.innerText =
+                      this.parentElement.innerText.trim();
+
+
+
+
+
+                    /* INSERE A ABA NA ORDEM DOS CHECKBOXES */
+
+                    const todosCheckboxes = [
+                      ...card.querySelectorAll('[data-toggle]')
+                    ];
+
+                    /* índice do checkbox atual */
+                    const indiceAtual =
+                      todosCheckboxes.indexOf(this);
+
+                    /* abas existentes */
+                    const abasExistentes = [
+                      ...tabsArea.querySelectorAll('.toggle-tab')
+                    ];
+
+                    let inserido = false;
+
+                    /* percorre abas existentes */
+                    abasExistentes.forEach(abaExistente => {
+
+                      const checkboxExistente =
+                        card.querySelector(
+                          `[data-toggle="${abaExistente.dataset.tab}"]`
+                        );
+
+                      const indiceExistente =
+                        todosCheckboxes.indexOf(
+                          checkboxExistente
+                        );
+
+                      /* insere antes */
+                      if (
+                        indiceAtual < indiceExistente &&
+                        !inserido
+                      ) {
+
+                        tabsArea.insertBefore(
+                          tab,
+                          abaExistente
+                        );
+
+                        inserido = true;
+
+                      }
+
+                    });
+
+                    /* se não inseriu */
+                    if (!inserido) {
+
+                      tabsArea.appendChild(tab);
+
+                    }
+
+                  }
+
+                  ativarConteudo(card, nome);
+
+                }
+
+
+                /* DESMARCOU */
+
+                else {
+
+                  /* remove aba */
+                  const tab =
+                    card.querySelector(
+                      `[data-tab="${nome}"]`
+                    );
+
+                  if (tab) tab.remove();
+
+                  /* remove conteúdo */
+                  conteudo.classList.remove('active');
+
+                  /* ativa primeira aba restante */
+                  const primeiraAba =
+                    card.querySelector('.toggle-tab');
+
+                  if (primeiraAba) {
+
+                    ativarConteudo(
+                      card,
+                      primeiraAba.dataset.tab
+                    );
+
+                  }
+
+                }
+
+              });
+
+            });
+
+
+          /* CLIQUE NAS ABAS */
+
+          document.addEventListener('click', function (e) {
+
+            if (
+              !e.target.classList.contains('toggle-tab')
+            ) return;
+
+            const card =
+              e.target.closest('.card');
+
+            ativarConteudo(
+              card,
+              e.target.dataset.tab
+            );
+
+          });
+
+        });
+
+        /* FUNÇÃO GLOBAL */
+
+        function ativarConteudo(card, nome) {
+
+          /* remove ativos */
+          card
+            .querySelectorAll('.toggle-tab')
+            .forEach(tab => {
+
+              tab.classList.remove('active');
+
+            });
+
+          card
+            .querySelectorAll('.toggle-content')
+            .forEach(content => {
+
+              content.classList.remove('active');
+
+            });
+
+          /* ativa aba */
+          const tab =
+            card.querySelector(
+              `[data-tab="${nome}"]`
+            );
+
+          if (tab) {
+
+            tab.classList.add('active');
+
+          }
+
+          /* ativa conteúdo */
+          const conteudo =
+            card.querySelector(
+              `[data-content="${nome}"]`
+            );
+
+          if (conteudo) {
+
+            conteudo.classList.add('active');
+
+          }
+
+        }
+
+
+
+
+      // GERENCIADOR DE CONTEUDO APENAS COM ABAS
+
+        
+        document.addEventListener('click', function(e) {
+
+          const aba = e.target.closest('[data-fixed-tab]');
+
+          if (!aba) return;
+
+          const nome = aba.dataset.fixedTab;
+
+          const container =
+            aba.closest('.card');
+
+          container
+            .querySelectorAll('.fixed-content')
+            .forEach(tab => {
+
+              tab.classList.remove('active');
+
+            });
+
+          container
+            .querySelectorAll('[data-fixed-content]')
+            .forEach(content => {
+
+              content.classList.remove('active');
+
+            });
+
+          aba.classList.add('active');
+
+          const conteudo =
+            container.querySelector(
+              `[data-fixed-content="${nome}"]`
+            );
+
+          if (conteudo) {
+
+            conteudo.classList.add('active');
+
+          }
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // ====CÓDIGO PRÉ DEFINIDOS PARA OS MODAIS====
+
+
+    /* MODAL GLOBAL */
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+
+      /* ABRIR MODAL */
+
+      document.addEventListener('click', (e) => {
+
+        const botao =
+          e.target.closest('[data-modal-open]');
+
+        if (!botao) return;
+
+        const modalId =
+          botao.dataset.modalOpen;
+
+        const modal =
+          document.getElementById(modalId);
+
+        if (!modal) return;
+
+        modal.classList.add('active');
+
+        document.body.style.overflow = 'hidden';
+
+
+        modal.classList.add('active');
+
+        subirModal(modal);
+
+        document.body.style.overflow = 'hidden';
+
+      });
+
+
+
+
+
+      /* FECHAR MODAL */
+
+      document.addEventListener('click', (e) => {
+
+        /* BOTÃO FECHAR */
+        const closeBtn =
+          e.target.closest('[data-modal-close]');
+
+        if (closeBtn) {
+
+          const modal =
+            closeBtn.closest('.modal');
+
+          fecharModal(modal);
+
+        }
+
+      });
+
+
+
+
+
+      /* CLICAR FORA */
+
+      document.querySelectorAll('.modal')
+        .forEach(modal => {
+
+          modal.addEventListener('click', (e) => {
+
+            if (e.target === modal) {
+
+              fecharModal(modal);
+
+            }
+
+          });
+
+        });
+
+
+
+
+
+      /* ESC */
+
+      document.addEventListener('keydown', (e) => {
+
+        if (e.key !== 'Escape') return;
+
+        const modalAberto =
+          document.querySelector('.modal.active');
+
+        if (!modalAberto) return;
+
+        fecharModal(modalAberto);
+
+      });
+
+    });
+
+
+    /* FUNÇÃO GLOBAL */
+
+    function fecharModal(modal) {
+
+      if (!modal) return;
+
+      modal.classList.remove('active');
+
+      /* verifica se ainda existe modal aberto */
+      const aindaExiste =
+        document.querySelector('.modal.active');
+
+      if (!aindaExiste) {
+
+        document.body.style.overflow = '';
+
+      }
+
+    }
+
+
+    // Faz ele sempre começar do inicio quando é iniciado
+
+    function subirModal(modal) {
+
+      if (!modal) return;
+
+      /* modal externo */
+      modal.scrollTop = 0;
+
+      /* qualquer área rolável dentro dele */
+      modal
+        .querySelectorAll('*')
+        .forEach(elemento => {
+
+          const estilo =
+            getComputedStyle(elemento);
+
+          const possuiScroll =
+            estilo.overflowY === 'auto' ||
+            estilo.overflowY === 'scroll';
+
+          if (possuiScroll) {
+
+            elemento.scrollTop = 0;
+
+          }
+
+        });
+
+    }
+
+
+
+
+   
+
+  // ==== FUNÇÃO PARA BOTÃO DE AJUDA ====
+
+  // let lastScroll = 0;
+
+  // const floatingBtn =
+  //   document.getElementById('floatingHelpBtn');
+
+  // window.addEventListener('scroll', () => {
+
+  //   const currentScroll =
+  //     window.pageYOffset;
+
+  //   /* descendo */
+  //   if (currentScroll > lastScroll + 5) {
+
+  //     floatingBtn.classList.add('hide');
+
+  //   }
+
+  //   /* subindo */
+  //   else {
+
+  //     floatingBtn.classList.remove('hide');
+
+  //   }
+
+  //   lastScroll = currentScroll;
+
+  // });
+
+
+
+
+
+
+</script>
