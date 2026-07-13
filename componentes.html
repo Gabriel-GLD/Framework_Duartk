@@ -128,23 +128,46 @@
     margin-bottom: 4px;
   }
 
-  /*NOVO COMENTÁRIO: mensagem de erro abaixo dos inputs */
+
+
+
+
+
+  /*FIM LABEL */
+
+
+
+
+
+
+
+  /* FEEDBACK (APARACER ABAIXO OU EM CIMA QUANDO ALGO NN ESTA PREENCHIDO **MENSAGEM DE ERRO**) */
+
   /* feedback */
   .feedback {
-    font-size: 12px;
+    font-size: 14px;
     margin-top: 4px;
+    margin-bottom: 4px;
   }
 
   .feedback.error {
+    font-size: 16px;
+    margin-top: 4px;
+    margin-bottom: 4px;
     color: var(--cor-erro);
   }
 
   .feedback.success {
+    font-size: 16px;
+    margin-top: 4px;
+    margin-bottom: 4px;
     color: var(--cor-sucesso);
   }
 
+  /* FIM FEEDBACK */
 
-  /*FIM LABEL */
+
+
 
 
 
@@ -904,31 +927,58 @@
 
 
 
-  /* ====CHECKBOX DE BLOQUEAR CONTEUDOS==== */
+/* ==== CHECKBOX / RADIO DE BLOQUEIO ==== */
 
-  /* ÁREA BLOQUEADA */
-  .lock-area.locked {
-    opacity: 0.6;
-    filter: grayscale(20%);
-  }
+.lock-area {
+  position: relative;
+}
 
-  /* BLOQUEIA TODOS OS CAMPOS */
-  .lock-area.locked
-  input:not([data-lock]),
-  .lock-area.locked
-  textarea,
-  .lock-area.locked
-  select,
-  .lock-area.locked
-  button,
-  .lock-area.locked
-  a,
-  .lock-area.locked
-  .radio,
-  .lock-area.locked
-  .checkbox:not(:has(input[data-lock])) {
-    pointer-events: none;
-  }
+/* Área bloqueada */
+.lock-area.locked {
+  transition: .2s;
+}
+
+/* Apenas os elementos que devem ficar "apagados" */
+
+.lock-area.locked input:not([data-lock]),
+.lock-area.locked textarea,
+.lock-area.locked select,
+.lock-area.locked .form-control,
+.lock-area.locked .form-select,
+.lock-area.locked .form-group,
+.lock-area.locked .input-group,
+.lock-area.locked table,
+.lock-area.locked .table {
+
+  opacity: .65;
+  filter: grayscale(20%);
+}
+
+/* Os títulos continuam normais */
+
+.lock-area.locked h1,
+.lock-area.locked h2,
+.lock-area.locked h3,
+.lock-area.locked h4,
+.lock-area.locked h5,
+.lock-area.locked h6 {
+
+  opacity: 1;
+  filter: none;
+}
+
+/* Os checkboxes/radios bloqueadores continuam normais */
+
+.lock-area.locked [data-lock],
+.lock-area.locked [data-lock] + span,
+.lock-area.locked [data-lock] + label {
+
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+
+
 
 
 

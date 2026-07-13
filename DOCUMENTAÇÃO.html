@@ -652,32 +652,36 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
   <!--====TAGS DIFERENTES NOS ***MODAIS DE AVISO**====-
 
 
-  MODAL DE CONFIRMAÇÃO
+  <====MODAL DE CONFIRMAÇÃO====>
 
-  <div class="modal info" id="modal-info">
+ <div class="modal info" id="modal-info">
+ 
+      <div>
+        <h3>Carregamento</h3>
 
-    <div>
-      <h3>Carregamento</h3>
-
-      <div class="modal-body-aviso">                       <<<<<=========
-
-        <p>
-          Os dados foram salvos com sucesso.
-        </p>
-
-        <div class="">
-
-          <button class="button button-outline" data-modal-close>
+        <div class="modal-body-aviso">                           <<<<<=========
+          <p>
+            Os dados foram salvos com sucesso. <br>
             Deseja continuar?
-          </button>
+          </p>
+
+
+          <div>
+
+            <button class="button">
+              Sim
+            </button>
+            <button class="button button-outline" data-modal-close>
+              Não
+            </button>
+
+          </div>
 
         </div>
 
       </div>
 
     </div>
-
-  </div>
 
 
 
@@ -701,7 +705,7 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
           Os dados foram salvos com sucesso.
         </p>
 
-        <div class="">
+        <div>
 
           <button class="button button-success" data-modal-close>
             OK
@@ -735,7 +739,7 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
               Não foi possível concluir a operação.
             </p>
 
-            <div class="">
+            <div>
 
               <button class="button button-danger" data-modal-close>
                 Fechar

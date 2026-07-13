@@ -49,109 +49,135 @@
 
 
 
-    // SCRIPT DO CHECKBOX PARA BLOQUEAR CONTEUDO
+  // BLOQUEIO DE CONTEÚDO
 
-  function aplicarBloqueio(checkbox) {
+  function aplicarBloqueio(controlador){
 
-    const nome = checkbox.dataset.lock;
+      const grupo = controlador.dataset.lock;
 
-    // Todos os controladores deste grupo
-    const controladores = document.querySelectorAll(
-      `[data-lock="${nome}"]`
-    );
+      if(!grupo) return;
 
-    // Se pelo menos um estiver marcado, mantém bloqueado
-    const bloqueado = [...controladores].some(
-      c => c.checked
-    );
+      // Todos os checkboxes/radios que controlam este grupo
 
-    const areas = document.querySelectorAll(
-      `[data-lock-area="${nome}"]`
-    );
-
-    if (!areas.length) return;
-
-    areas.forEach(area => {
-
-      area.classList.toggle(
-        'locked',
-        bloqueado
+      const controladores = document.querySelectorAll(
+          `[data-lock="${grupo}"]`
       );
 
-      // Só limpa quando passou de desbloqueado -> bloqueado
-      if (bloqueado && !area.dataset.lockedApplied) {
+      // Se algum estiver marcado -> bloqueado
 
-        area.dataset.lockedApplied = "true";
+      const bloqueado =
+          [...controladores].some(c=>c.checked);
 
-        area
+      // Todas as áreas deste grupo
+
+      document
+      .querySelectorAll(`[data-lock-area="${grupo}"]`)
+      .forEach(area=>{
+
+          area.classList.toggle(
+              "locked",
+              bloqueado
+          );
+
+          // Todos os campos
+
+          area
           .querySelectorAll(
-            'input, textarea, select'
+              "input, textarea, select, button"
           )
-          .forEach(campo => {
+          .forEach(campo=>{
 
-            // Não limpa os controladores
-            if (campo.matches('[data-lock]')) return;
+              // Nunca bloqueia os controladores
 
-            if (
-              campo.type === 'checkbox' ||
-              campo.type === 'radio'
-            ) {
+              if(campo.matches("[data-lock]"))
+                  return;
 
-              campo.checked = false;
+              // INPUTS
 
-            }
+              if(campo.tagName==="INPUT"){
 
-            else if (
-              campo.tagName === 'INPUT' ||
-              campo.tagName === 'TEXTAREA'
-            ) {
+                  switch(campo.type){
 
-              campo.value = '';
+                      case "checkbox":
+                      case "radio":
 
-            }
+                          if(bloqueado)
+                              campo.checked=false;
 
-            else if (
-              campo.tagName === 'SELECT'
-            ) {
+                          campo.disabled=bloqueado;
 
-              campo.selectedIndex = 0;
+                          break;
 
-            }
+                      default:
+
+                          if(bloqueado)
+                              campo.value="";
+
+                          campo.disabled=bloqueado;
+
+                  }
+
+                  return;
+              }
+
+              // TEXTAREA
+
+              if(campo.tagName==="TEXTAREA"){
+
+                  if(bloqueado)
+                      campo.value="";
+
+                  campo.readOnly=bloqueado;
+
+                  return;
+              }
+
+              // SELECT
+
+              if(campo.tagName==="SELECT"){
+
+                  if(bloqueado)
+                      campo.selectedIndex=0;
+
+                  campo.disabled=bloqueado;
+
+                  return;
+              }
+
+              // BOTÕES
+
+              if(campo.tagName==="BUTTON"){
+
+                  campo.disabled=bloqueado;
+
+              }
 
           });
 
-      }
-
-      // Remove a marca quando desbloquear totalmente
-      if (!bloqueado) {
-
-        delete area.dataset.lockedApplied;
-
-      }
-
-    });
+      });
 
   }
 
-  // CLIQUE MANUAL
-    document.addEventListener('change', function(e) {
+  // EVENTOS
 
-      const checkbox = e.target;
+  document.addEventListener("change",e=>{
 
-      if (!checkbox.matches('[data-lock]')) return;
+      if(!e.target.matches("[data-lock]"))
+          return;
 
-      aplicarBloqueio(checkbox);
+      aplicarBloqueio(e.target);
 
-    });
+  });
 
-    // QUANDO A PÁGINA CARREGAR
-    document.addEventListener('DOMContentLoaded', () => {
+  // INICIALIZAÇÃO
+
+  document.addEventListener("DOMContentLoaded",()=>{
 
       document
-        .querySelectorAll('[data-lock]')
-        .forEach(aplicarBloqueio);
+      .querySelectorAll("[data-lock]")
+      .forEach(aplicarBloqueio);
 
-    });
+  });
 
 
 
