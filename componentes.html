@@ -927,56 +927,91 @@
 
 
 
-/* ==== CHECKBOX / RADIO DE BLOQUEIO ==== */
 
-.lock-area {
-  position: relative;
-}
 
-/* Área bloqueada */
-.lock-area.locked {
-  transition: .2s;
-}
 
-/* Apenas os elementos que devem ficar "apagados" */
 
-.lock-area.locked input:not([data-lock]),
-.lock-area.locked textarea,
-.lock-area.locked select,
-.lock-area.locked .form-control,
-.lock-area.locked .form-select,
-.lock-area.locked .form-group,
-.lock-area.locked .input-group,
-.lock-area.locked table,
-.lock-area.locked .table {
 
-  opacity: .65;
-  filter: grayscale(20%);
-}
 
-/* Os títulos continuam normais */
+  /* ==== CHECKBOX / RADIO DE BLOQUEIO ==== */
 
-.lock-area.locked h1,
-.lock-area.locked h2,
-.lock-area.locked h3,
-.lock-area.locked h4,
-.lock-area.locked h5,
-.lock-area.locked h6 {
+  .lock-area {
+    position: relative;
+  }
 
-  opacity: 1;
-  filter: none;
-}
+  /* Área bloqueada */
+  .lock-area.locked {
+    transition: .2s;
+  }
 
-/* Os checkboxes/radios bloqueadores continuam normais */
+  /* Apenas os elementos que devem ficar "apagados" */
 
-.lock-area.locked [data-lock],
-.lock-area.locked [data-lock] + span,
-.lock-area.locked [data-lock] + label {
+  .lock-area.locked input:not([data-lock]),
+  .lock-area.locked textarea,
+  .lock-area.locked select,
+  .lock-area.locked .form-control,
+  .lock-area.locked .form-select,
+  .lock-area.locked .form-group,
+  .lock-area.locked .input-group,
+  .lock-area.locked table,
+  .lock-area.locked .table {
 
-  opacity: 1 !important;
-  filter: none !important;
-}
+    opacity: .65;
+    filter: grayscale(20%);
+  }
 
+  /* Os títulos continuam normais */
+
+  .lock-area.locked h1,
+  .lock-area.locked h2,
+  .lock-area.locked h3,
+  .lock-area.locked h4,
+  .lock-area.locked h5,
+  .lock-area.locked h6 {
+
+    opacity: 1;
+    filter: none;
+  }
+
+  /* Os checkboxes/radios bloqueadores continuam normais */
+
+  .lock-area.locked [data-lock],
+  .lock-area.locked [data-lock] + span,
+  .lock-area.locked [data-lock] + label {
+
+    opacity: 1 !important;
+    filter: none !important;
+  }
+
+
+  /* CHECK/RADIO BLOQUEADOR DESABILITADO */
+
+  .checkbox input[data-lock]:disabled + span,
+  .radio input[data-lock]:disabled + span {
+
+    opacity: .5;
+    filter: grayscale(20%);
+    cursor: not-allowed;
+  }
+
+  /* deixa o cursor do label também */
+
+  .checkbox:has(input[data-lock]:disabled),
+  .radio:has(input[data-lock]:disabled) {
+
+    cursor: not-allowed;
+  }
+
+  .lock-controller-disabled {
+
+    opacity: .45;
+    filter: grayscale(20%);
+    cursor: not-allowed;
+    transition: .2s;
+
+    user-select: none;
+
+  }
 
 
 

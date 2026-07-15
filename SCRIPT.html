@@ -49,7 +49,7 @@
 
 
 
-  // BLOQUEIO DE CONTEÚDO
+  // SCRIPT CHECK DE BLOQUEIO DE CONTEÚDO
 
   function aplicarBloqueio(controlador){
 
@@ -184,39 +184,140 @@
 
 
 
-    // BLOQUEAR O CHECKBOX BLOQUEADOR
 
-    document.addEventListener('change', function(e) {
 
-      const checkbox = e.target;
+  // ===== CONTROLADORES DE BLOQUEIO =====
 
-      if (!checkbox.matches('[data-lock-controller]')) return;
+  function atualizarControladores(nome) {
 
-      const nome = checkbox.dataset.lockController;
-
-      const bloqueador = document.querySelector(
-        `[data-lock="${nome}"]`
+    // Apenas checkboxes
+    const bloqueadores =
+      document.querySelectorAll(
+        `input[type="checkbox"][data-lock="${nome}"]`
       );
 
-      if (!bloqueador) return;
+    const controllers =
+      document.querySelectorAll(
+        `input[type="checkbox"][data-lock-controller="${nome}"]`
+      );
 
-      // VERIFICA SE EXISTE ALGUM CONTROLLER MARCADO
-      const existeMarcado = [...document.querySelectorAll(
-        `[data-lock-controller="${nome}"]`
-      )].some(check => check.checked);
+    const existeBloqueadorMarcado =
+      [...bloqueadores].some(el => el.checked);
 
-      if (existeMarcado) {
+    const existeControllerMarcado =
+      [...controllers].some(el => el.checked);
 
-        bloqueador.checked = false;
-        bloqueador.disabled = true;
 
-      } else {
 
-        bloqueador.disabled = false;
+    // Se algum controller estiver marcado,
+    // bloqueia os bloqueadores
+
+    bloqueadores.forEach(el => {
+
+      const bloqueado =
+        existeControllerMarcado &&
+        !el.checked;
+
+      el.disabled = bloqueado;
+
+      const label = el.closest("label");
+
+      if (label) {
+
+        label.classList.toggle(
+          "lock-controller-disabled",
+          bloqueado
+        );
 
       }
 
     });
+
+
+
+    // Se algum bloqueador estiver marcado,
+    // bloqueia os controllers
+
+    controllers.forEach(el => {
+
+      const bloqueado =
+        existeBloqueadorMarcado &&
+        !el.checked;
+
+      el.disabled = bloqueado;
+
+      const label = el.closest("label");
+
+      if (label) {
+
+        label.classList.toggle(
+          "lock-controller-disabled",
+          bloqueado
+        );
+
+      }
+
+    });
+
+  }
+
+
+
+  // ALTERAÇÃO DOS CHECKBOXES
+
+  document.addEventListener("change", function (e) {
+
+    const el = e.target;
+
+    if (el.matches('input[type="checkbox"][data-lock]')) {
+
+      atualizarControladores(
+        el.dataset.lock
+      );
+
+    }
+
+    if (el.matches('input[type="checkbox"][data-lock-controller]')) {
+
+      atualizarControladores(
+        el.dataset.lockController
+      );
+
+    }
+
+  });
+
+
+
+  // INICIALIZAÇÃO
+
+  document.addEventListener("DOMContentLoaded", () => {
+
+    const grupos = new Set();
+
+    document
+      .querySelectorAll('input[type="checkbox"][data-lock]')
+      .forEach(el => {
+
+        grupos.add(el.dataset.lock);
+
+      });
+
+    document
+      .querySelectorAll('input[type="checkbox"][data-lock-controller]')
+      .forEach(el => {
+
+        grupos.add(el.dataset.lockController);
+
+      });
+
+    grupos.forEach(nome => {
+
+      atualizarControladores(nome);
+
+    });
+
+  });
 
 
 
