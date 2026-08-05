@@ -49,277 +49,280 @@
 
 
 
-  // SCRIPT CHECK DE BLOQUEIO DE CONTEÚDO
+  //======SCRIPT CHECK DE BLOQUEIO DE CONTEÚDO =====
+  // RETIRADO TEMPORARIAMENTE
 
-  function aplicarBloqueio(controlador){
+  /*
+  
+    function aplicarBloqueio(controlador){
 
-      const grupo = controlador.dataset.lock;
+        const grupo = controlador.dataset.lock;
 
-      if(!grupo) return;
+        if(!grupo) return;
 
-      // Todos os checkboxes/radios que controlam este grupo
+        // Todos os checkboxes/radios que controlam este grupo
 
-      const controladores = document.querySelectorAll(
-          `[data-lock="${grupo}"]`
-      );
+        const controladores = document.querySelectorAll(
+            `[data-lock="${grupo}"]`
+        );
 
-      // Se algum estiver marcado -> bloqueado
+        // Se algum estiver marcado -> bloqueado
 
-      const bloqueado =
-          [...controladores].some(c=>c.checked);
+        const bloqueado =
+            [...controladores].some(c=>c.checked);
 
-      // Todas as áreas deste grupo
+        // Todas as áreas deste grupo
 
-      document
-      .querySelectorAll(`[data-lock-area="${grupo}"]`)
-      .forEach(area=>{
+        document
+        .querySelectorAll(`[data-lock-area="${grupo}"]`)
+        .forEach(area=>{
 
-          area.classList.toggle(
-              "locked",
-              bloqueado
+            area.classList.toggle(
+                "locked",
+                bloqueado
+            );
+
+            // Todos os campos
+
+            area
+            .querySelectorAll(
+                "input, textarea, select, button"
+            )
+            .forEach(campo=>{
+
+                // Nunca bloqueia os controladores
+
+                if(campo.matches("[data-lock]"))
+                    return;
+
+                // INPUTS
+
+                if(campo.tagName==="INPUT"){
+
+                    switch(campo.type){
+
+                        case "checkbox":
+                        case "radio":
+
+                            if(bloqueado)
+                                campo.checked=false;
+
+                            campo.disabled=bloqueado;
+
+                            break;
+
+                        default:
+
+                            if(bloqueado)
+                                campo.value="";
+
+                            campo.disabled=bloqueado;
+
+                    }
+
+                    return;
+                }
+
+                // TEXTAREA
+
+                if(campo.tagName==="TEXTAREA"){
+
+                    if(bloqueado)
+                        campo.value="";
+
+                    campo.readOnly=bloqueado;
+
+                    return;
+                }
+
+                // SELECT
+
+                if(campo.tagName==="SELECT"){
+
+                    if(bloqueado)
+                        campo.selectedIndex=0;
+
+                    campo.disabled=bloqueado;
+
+                    return;
+                }
+
+                // BOTÕES
+
+                if(campo.tagName==="BUTTON"){
+
+                    campo.disabled=bloqueado;
+
+                }
+
+            });
+
+        });
+
+    }
+
+    // EVENTOS
+
+    document.addEventListener("change",e=>{
+
+        if(!e.target.matches("[data-lock]"))
+            return;
+
+        aplicarBloqueio(e.target);
+
+    });
+
+    // INICIALIZAÇÃO
+
+    document.addEventListener("DOMContentLoaded",()=>{
+
+        document
+        .querySelectorAll("[data-lock]")
+        .forEach(aplicarBloqueio);
+
+    });
+
+
+
+
+
+
+
+
+    // ===== CONTROLADORES DE BLOQUEIO =====
+
+    function atualizarControladores(nome) {
+
+      // Apenas checkboxes
+      const bloqueadores =
+        document.querySelectorAll(
+          `input[type="checkbox"][data-lock="${nome}"]`
+        );
+
+      const controllers =
+        document.querySelectorAll(
+          `input[type="checkbox"][data-lock-controller="${nome}"]`
+        );
+
+      const existeBloqueadorMarcado =
+        [...bloqueadores].some(el => el.checked);
+
+      const existeControllerMarcado =
+        [...controllers].some(el => el.checked);
+
+
+
+      // Se algum controller estiver marcado,
+      // bloqueia os bloqueadores
+
+      bloqueadores.forEach(el => {
+
+        const bloqueado =
+          existeControllerMarcado &&
+          !el.checked;
+
+        el.disabled = bloqueado;
+
+        const label = el.closest("label");
+
+        if (label) {
+
+          label.classList.toggle(
+            "lock-controller-disabled",
+            bloqueado
           );
 
-          // Todos os campos
-
-          area
-          .querySelectorAll(
-              "input, textarea, select, button"
-          )
-          .forEach(campo=>{
-
-              // Nunca bloqueia os controladores
-
-              if(campo.matches("[data-lock]"))
-                  return;
-
-              // INPUTS
-
-              if(campo.tagName==="INPUT"){
-
-                  switch(campo.type){
-
-                      case "checkbox":
-                      case "radio":
-
-                          if(bloqueado)
-                              campo.checked=false;
-
-                          campo.disabled=bloqueado;
-
-                          break;
-
-                      default:
-
-                          if(bloqueado)
-                              campo.value="";
-
-                          campo.disabled=bloqueado;
-
-                  }
-
-                  return;
-              }
-
-              // TEXTAREA
-
-              if(campo.tagName==="TEXTAREA"){
-
-                  if(bloqueado)
-                      campo.value="";
-
-                  campo.readOnly=bloqueado;
-
-                  return;
-              }
-
-              // SELECT
-
-              if(campo.tagName==="SELECT"){
-
-                  if(bloqueado)
-                      campo.selectedIndex=0;
-
-                  campo.disabled=bloqueado;
-
-                  return;
-              }
-
-              // BOTÕES
-
-              if(campo.tagName==="BUTTON"){
-
-                  campo.disabled=bloqueado;
-
-              }
-
-          });
+        }
 
       });
 
-  }
 
-  // EVENTOS
 
-  document.addEventListener("change",e=>{
+      // Se algum bloqueador estiver marcado,
+      // bloqueia os controllers
 
-      if(!e.target.matches("[data-lock]"))
-          return;
+      controllers.forEach(el => {
 
-      aplicarBloqueio(e.target);
+        const bloqueado =
+          existeBloqueadorMarcado &&
+          !el.checked;
 
-  });
+        el.disabled = bloqueado;
 
-  // INICIALIZAÇÃO
+        const label = el.closest("label");
 
-  document.addEventListener("DOMContentLoaded",()=>{
+        if (label) {
+
+          label.classList.toggle(
+            "lock-controller-disabled",
+            bloqueado
+          );
+
+        }
+
+      });
+
+    }
+
+
+
+    // ALTERAÇÃO DOS CHECKBOXES
+
+    document.addEventListener("change", function (e) {
+
+      const el = e.target;
+
+      if (el.matches('input[type="checkbox"][data-lock]')) {
+
+        atualizarControladores(
+          el.dataset.lock
+        );
+
+      }
+
+      if (el.matches('input[type="checkbox"][data-lock-controller]')) {
+
+        atualizarControladores(
+          el.dataset.lockController
+        );
+
+      }
+
+    });
+
+
+
+    // INICIALIZAÇÃO
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+      const grupos = new Set();
 
       document
-      .querySelectorAll("[data-lock]")
-      .forEach(aplicarBloqueio);
+        .querySelectorAll('input[type="checkbox"][data-lock]')
+        .forEach(el => {
 
-  });
+          grupos.add(el.dataset.lock);
 
+        });
 
+      document
+        .querySelectorAll('input[type="checkbox"][data-lock-controller]')
+        .forEach(el => {
 
+          grupos.add(el.dataset.lockController);
 
+        });
 
+      grupos.forEach(nome => {
 
-
-
-  // ===== CONTROLADORES DE BLOQUEIO =====
-
-  function atualizarControladores(nome) {
-
-    // Apenas checkboxes
-    const bloqueadores =
-      document.querySelectorAll(
-        `input[type="checkbox"][data-lock="${nome}"]`
-      );
-
-    const controllers =
-      document.querySelectorAll(
-        `input[type="checkbox"][data-lock-controller="${nome}"]`
-      );
-
-    const existeBloqueadorMarcado =
-      [...bloqueadores].some(el => el.checked);
-
-    const existeControllerMarcado =
-      [...controllers].some(el => el.checked);
-
-
-
-    // Se algum controller estiver marcado,
-    // bloqueia os bloqueadores
-
-    bloqueadores.forEach(el => {
-
-      const bloqueado =
-        existeControllerMarcado &&
-        !el.checked;
-
-      el.disabled = bloqueado;
-
-      const label = el.closest("label");
-
-      if (label) {
-
-        label.classList.toggle(
-          "lock-controller-disabled",
-          bloqueado
-        );
-
-      }
-
-    });
-
-
-
-    // Se algum bloqueador estiver marcado,
-    // bloqueia os controllers
-
-    controllers.forEach(el => {
-
-      const bloqueado =
-        existeBloqueadorMarcado &&
-        !el.checked;
-
-      el.disabled = bloqueado;
-
-      const label = el.closest("label");
-
-      if (label) {
-
-        label.classList.toggle(
-          "lock-controller-disabled",
-          bloqueado
-        );
-
-      }
-
-    });
-
-  }
-
-
-
-  // ALTERAÇÃO DOS CHECKBOXES
-
-  document.addEventListener("change", function (e) {
-
-    const el = e.target;
-
-    if (el.matches('input[type="checkbox"][data-lock]')) {
-
-      atualizarControladores(
-        el.dataset.lock
-      );
-
-    }
-
-    if (el.matches('input[type="checkbox"][data-lock-controller]')) {
-
-      atualizarControladores(
-        el.dataset.lockController
-      );
-
-    }
-
-  });
-
-
-
-  // INICIALIZAÇÃO
-
-  document.addEventListener("DOMContentLoaded", () => {
-
-    const grupos = new Set();
-
-    document
-      .querySelectorAll('input[type="checkbox"][data-lock]')
-      .forEach(el => {
-
-        grupos.add(el.dataset.lock);
+        atualizarControladores(nome);
 
       });
 
-    document
-      .querySelectorAll('input[type="checkbox"][data-lock-controller]')
-      .forEach(el => {
-
-        grupos.add(el.dataset.lockController);
-
-      });
-
-    grupos.forEach(nome => {
-
-      atualizarControladores(nome);
-
     });
 
-  });
-
-
+  */
 
 
 
@@ -689,6 +692,10 @@
         .forEach(modal => {
 
           modal.addEventListener('click', (e) => {
+
+            if (modal.classList.contains('loading')){
+              return;
+            }
 
             if (e.target === modal) {
 

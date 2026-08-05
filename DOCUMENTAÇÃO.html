@@ -1,5 +1,19 @@
 <!-- 
 
+
+  ATUALIZAÇÕES A SEREM IMPLEMENTADAS:
+
+  *Colocar alternativas novas de*:
+
+  -Cards (dentro do card principal) com espaçamentos alinhados
+  -checks com espaçamentos menores > FEITO
+  -footer do modal que acompanha a tela
+  -modal que nn fecha quando a gente clica fora dele > FEITO
+
+
+
+
+
   DOCUMENTAÇÃO DUART_SYSTEM ✋😎🤚
 
 EX DE FORMATAÇÃO PADRÃO COM (ALINHAMENTO GOVBR):
@@ -203,6 +217,33 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
           </label>
         </div>
       </div>
+
+
+
+
+      <====CHECKBOX COM ESPAÇAMENTO MENOR (MAIS JUNTO)====>
+
+    
+      <div class="checkbox-spacing">                <<<==== ADICIONAR UMA DIV QUE ENVOLVA OS CHECKS DESEJADOS COM A CLASS
+
+        <div class="form-group">
+          <label class="checkbox">
+              <input type="checkbox">
+              <span>Teste1</span>
+            </label>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox">
+              <input type="checkbox">
+              <span>Teste2</span>
+            </label>
+        </div>
+
+      </div> 
+      
+
+
 
 
 ====FIM CHECKBOX====
@@ -649,7 +690,28 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 
 
-  <!--====TAGS DIFERENTES NOS ***MODAIS DE AVISO**====-
+  <!--====TAGS DIFERENTES NOS ***MODAIS DE AVISO***====-
+
+
+    <!-- MODAL DE CARREGAMENTO --
+
+    <div class="modal loading " id="modal-loading">
+      <div>
+        <h3>
+          Carregando os Dados
+        </h3>
+        <div class="modal-body-aviso">
+          <div class=" card flex">
+            
+            <div class="spinner"></div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+
+    </div>
 
 
   <====MODAL DE CONFIRMAÇÃO====>
@@ -774,7 +836,7 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
         MESMO ESQUEMA DE UTILIZAÇÃO DOS NORMAIS (SUPORTANDO MAIS CONTEUDO)
        -->
 
-      <!-- ====MODAL LARGO==== --
+<!-- ====MODAL LARGO==== --
 
   <div class="modal lg" id="modal-lg">
 
