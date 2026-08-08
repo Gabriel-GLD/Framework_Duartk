@@ -631,33 +631,49 @@
 
       /* ABRIR MODAL */
 
-      document.addEventListener('click', (e) => {
+      document.addEventListener("click",e=> {
 
         const botao =
-          e.target.closest('[data-modal-open]');
+          e.target.closest("[data-modal-open]");
 
-        if (!botao) return;
+        if(!botao) return;
 
-        const modalId =
-          botao.dataset.modalOpen;
-
-        const modal =
-          document.getElementById(modalId);
-
-        if (!modal) return;
-
-        modal.classList.add('active');
-
-        document.body.style.overflow = 'hidden';
-
-
-        modal.classList.add('active');
-
-        subirModal(modal);
-
-        document.body.style.overflow = 'hidden';
+        abrirModal(
+          botao.dataset.modalOpen
+        )
 
       });
+
+
+      // ====FORMA ANTIGA PARA ABRIR MODAIS====
+
+      // document.addEventListener('click', (e) => {
+
+      //   const botao =
+      //     e.target.closest('[data-modal-open]');
+
+      //   if (!botao) return;
+
+      //   const modalId =
+      //     botao.dataset.modalOpen;
+
+      //   const modal =
+      //     document.getElementById(modalId);
+
+      //   if (!modal) return;
+
+      //   modal.classList.add('active');
+
+      //   document.body.style.overflow = 'hidden';
+
+
+      //   modal.classList.add('active');
+
+      //   subirModal(modal);
+
+      //   document.body.style.overflow = 'hidden';
+
+      // });
 
 
 
@@ -781,9 +797,57 @@
 
     }
 
-    // SCRIPT PARA MODAIS ABRIR DE OUTRAS MANEIRAS
+    // =====SCRIPT PARA MODAIS ABRIR DE OUTRAS MANEIRAS====
 
   
+    function abrirModal(modalOuId) {
+
+      const modal =
+        typeof modalOuId === "string"
+          ? document.getElementById(modalOuId)
+          :modalOuId
+
+      
+      if(!modal) return;
+
+      modal.classList.add("active");
+      
+      subirModal(modal);
+
+      document.body.style.overflow = "hidden";
+
+
+    }
+
+
+    // FECHAMENTO DOS MODAIS GLOBAIS
+
+
+    function fecharModal(modalOuId) {
+
+      const modal = 
+        typeof modalOuId === "string"
+          ? document.getElementById(modalOuId)
+          :modalOuId
+
+      if(!modal) return;
+
+      modal.classList.remove("active");
+
+      modal.dispatchEvent(
+        new CustomEvent("modal:close")
+      );
+
+
+      // verifica se existe algum modal aberto
+
+      if (!document.querySelector(".modal.active")) {
+
+        document.body.style.overflow = "";
+        
+      }
+    }
+
 
 
 

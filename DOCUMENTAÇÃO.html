@@ -7,9 +7,11 @@
 
   -Cards (dentro do card principal) com espaçamentos alinhados
   -checks com espaçamentos menores > FEITO
-  -footer do modal que acompanha a tela
+  -footer do modal que acompanha a tela > FEITO
   -modal que nn fecha quando a gente clica fora dele > FEITO
-  -fazer script para o modal que faz ele abrir assim que o sistema é iniciado, ou em alguma situação de carregamento
+  -fazer script para o modal que faz ele abrir assim que o sistema é iniciado, ou em alguma situação de carregamento > FEITO
+
+  -Fazer com que o modal tenha uma rolagem ou um clique lateral para Videos ou outros conteudos muito grandes  
 
 
 
@@ -507,7 +509,36 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 ====FIM RADIO====
 
-    
+
+
+
+
+
+
+======Ex ATIVAÇÃO de MODAL GLOBAL=====
+
+
+  ***FAÇA O SCRIPT DE COMO DESEJA ABRIR O MODAL E ADICIONE A CLASSE ABAIXO***
+
+
+
+
+      document.addEventListener("DOMContentLoaded", () => {
+
+        abrirModal("modal-loading");              <<<<=== id do modal que deseja abrir (O "abrirModal e o fecharModal já são pré definidos")
+                                                                                        (basta apenas colocar o id do modal)
+        setTimeout(() => {
+
+            fecharModal("modal-loading");         <<<<====id do modal que deseja fechar ()
+
+        }, 5000);
+
+      });
+
+
+====FIM ATIVAÇÃO MODAL GLOBAL====
+
+
 
 
 
@@ -515,14 +546,55 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 ====MODAL EX:====
 
+  ====SINTAXE DO MODAL PADRAO====
 
-    "X"  NO CANTO SUPERIOR DIREITO PARA MODAIS 
+    
+    <div class="modal" id="modal-content">          <<<<<===== COLOQUE A CLA
 
-  *****SCRIPTS PRÉ DEFINIDOS PARA OS MODAIS*****
+      <div>
+
+
+            <div class="right"  data-modal-close >         <<<==== DIV PARA FAZER O X DO MODAL FUNCIONAR
+              ✕                                            <<<=== "X" PARA FECHAR O MODAL 
+            </div>
+
+          <h2>
+            *TITULO DO MODAL*
+          </h2>
+
+          <div class="modal-body">
+
+            *CONTEUDO QUE VAI SER COLOCADO NO MODAL
+
+          </div>
+
+
+      </div>
+
+    </div>      
+
+
+  ====FIM SINTAXE MODAL PADRÃO
+  
 
 
 
-    ****ABRIR MODAL (BASTA COLOCAR O SEGUINTE COMANDO AO LADO DO CLASS)****
+
+
+
+
+
+
+
+
+
+
+
+  *****SCRIPTS PRÉ DEFINIDOS PARA OS MODAIS (ABRIR POR CLICK)*****
+
+
+
+    =====****ABRIR MODAL (BASTA COLOCAR O SEGUINTE COMANDO AO LADO DO CLASS)****====
 
     EX:
 
@@ -538,7 +610,7 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
         >
 
     
-    ****PARA FECHAR OS MODAIS ****
+    ====****PARA FECHAR OS MODAIS ****====
 
     EX:
 
@@ -562,8 +634,7 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 
 
-
-
+  EXEMPLOS PARA ATIVAÇÃO DE MODAL
 
 
 
