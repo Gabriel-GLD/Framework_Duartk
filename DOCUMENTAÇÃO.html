@@ -5,13 +5,15 @@
 
   *Colocar alternativas novas de*:
 
-  -Cards (dentro do card principal) com espaçamentos alinhados
+  -Cards (dentro do card principal) com espaçamentos alinhados > FEITO
   -checks com espaçamentos menores > FEITO
   -footer do modal que acompanha a tela > FEITO
   -modal que nn fecha quando a gente clica fora dele > FEITO
   -fazer script para o modal que faz ele abrir assim que o sistema é iniciado, ou em alguma situação de carregamento > FEITO
 
-  -Fazer com que o modal tenha uma rolagem ou um clique lateral para Videos ou outros conteudos muito grandes  
+
+
+  -Fazer com que o modal tenha uma rolagem ou um clique lateral para Videos ou outros conteudos muito grandes  >
 
 
 
@@ -87,7 +89,7 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
     ==card com form==
 
-      <div class="card">
+      <div class="card">                           <<<<< OU "card-aligned" no card principal (para os outros cards dentro dele fiquem todos alinhados)  
         <h1>Cadastrar Aluno</h1>
 
         ==form group para inputs==
@@ -546,10 +548,11 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 ====MODAL EX:====
 
-  ====SINTAXE DO MODAL PADRAO====
+
+  ====SINTAXE DO MODAL PADRAO COM FOOTER====
 
     
-    <div class="modal" id="modal-content">          <<<<<===== COLOQUE A CLA
+    <div class="modal" id="modal-content">          <<<<<===== COLOQUE A CLASS
 
       <div>
 
@@ -568,6 +571,19 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
           </div>
 
+
+           <footer class="modal-footer">
+
+            <div class="flex">
+
+              <button class="button button-outline"
+                data-modal-close>
+                Fechar
+              </button>
+
+            </div>
+
+          </footer>
 
       </div>
 

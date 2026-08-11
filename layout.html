@@ -176,14 +176,17 @@
 
     background: var(--card);
 
-    border: 1px solid var (--borda)
+    border: 1px solid var(--borda);
     border-radius: 6px;
 
     display: flex;
 
     flex-wrap: wrap;
-    gap: 16;
-    justify-content: space-between;  
+    gap: 16px;
+    padding: 20px;
+    justify-content: flex-start;  
+
+    align-items: flex-start;
 
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 
@@ -191,7 +194,19 @@
   }
 
 
+  /* TÍTULOS FICAM SEMPRE ACIMA DOS CARDS */
 
+  .card-aligned > h1,
+  .card-aligned > h2,
+  .card-aligned > h3,
+  .card-aligned > h4,
+  .card-aligned > h5,
+  .card-aligned > h6 {
+
+    width: 100%;
+
+    margin-top: 0;
+  }
 
 
   /* FIM CARD */
