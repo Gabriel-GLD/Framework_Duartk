@@ -114,6 +114,13 @@
 
   }
 
+
+
+  /* DEIXA A LETRA  */
+  text-clean {
+    opacity: 0.7;
+  }
+
   /* FIM (INPUTS E SUAS VARIANTES) */
 
 
@@ -628,172 +635,355 @@
 
 
 
-  /* ===== MODAL ===== */
+    /* ===== MODAL ===== */
 
 
-  /* 
-  modal normal: 600px
-  lg: 800px
-  xl: 1100 
-  full: 1400 
-   */
+    /* 
+    modal normal: 600px
+    lg: 800px
+    xl: 1100 
+    full: 1400 
+    */
 
-  .modal {
-    display: none;
+    .modal {
+      display: none;
 
-    position: fixed;
-    inset: 0;
+      position: fixed;
+      inset: 0;
 
-    z-index: 2000;
+      z-index: 2000;
 
-    background: rgba(0, 0, 0, 0.45);
+      background: rgba(0, 0, 0, 0.45);
 
-    padding: 16px;
+      padding: 16px;
 
-    overflow-y: auto;
+      overflow-y: auto;
 
-    justify-content: center;
-    align-items: flex-start;
-  }
+      justify-content: center;
+      align-items: flex-start;
+    }
 
 
 
-  /* ABERTO */
-  .modal.active {
-    display: flex;
-  }
+    /* ABERTO */
+    .modal.active {
+      display: flex;
+    }
 
-  /* CAIXA */
-  .modal>div {
-    background: var(--card);
+    /* CAIXA */
+    .modal>div {
+      background: var(--card);
+
+      width: 100%;
+      max-width: 600px;
+
+      margin-top: 40px;
+
+      border-radius: 8px;
+      border: 1px solid var(--borda);
+
+      overflow: hidden;
+
+      max-height: calc(100vh - 80px);
+
+      display: flex;
+      flex-direction: column;
+
+      box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.12),
+        0 2px 4px rgba(0, 0, 0, 0.08);
+    }
+
+
+    /* botao de X do modal */
+
+    .modal>div .right {
+      display: flex;
+
+      justify-content: flex-end;
+      /* align-items: center; */
+
+      padding-right: 17px;
+      /* padding-top: 10px;  */
+
+      gap: 10px;
+
+      margin-top: 12px;
+      margin-bottom: -10px;
+
+      font-size: 1.5rem;
+      font-weight: 600;
+
+      line-height: 1;
+
+      cursor: pointer;
+
+      user-select: none;
+    }
+
+
+
+
+
+
+
+    /* HEADER AUTOMÁTICO */
+    .modal h1,
+    .modal h2,
+    .modal h3 {
+      margin: 0;
+
+      padding: 16px 20px;
+
+      border-bottom: 1px solid var(--borda);
+
+      font-size: 1.2rem;
+    }
+
+    /* CONTEÚDO */
+    .modal-body {
+      padding: 20px;
+
+      overflow-y: auto;
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 16px;
+
+      flex: 1;
+    }
+
+
+    /* FOOTER QUE ACOMPANHA A TELA */
+
+    .modal-footer{
+
+      display: flex;
+      justify-content: flex-start;
+
+      gap:12px;
+      padding: 16px 20px;
+      border-top: 1px solid var(--borda);
+
+      background: var(--card)
+      flex-shrink: 0;
+
+
+    }
+
+    /* CONTEÚDO, MODAIS DE AVISO */
+
+    .modal-body-aviso {
+      padding: 20px;
+
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+
+      gap: 16px;
+      flex: 1;
+
+    }
+
+
+    .modal-body .flex:last-child {
+      padding-top: 8px;
+    }
+
+
+
+    /* ROLAGEM LATERAL NO MODAL PARA CONTEUDOS, VIDEOS ETC... */
+
+  .scroll-body {
+
+    position: relative;
 
     width: 100%;
-    max-width: 600px;
-
-    margin-top: 40px;
-
-    border-radius: 8px;
-    border: 1px solid var(--borda);
 
     overflow: hidden;
 
-    max-height: calc(100vh - 80px);
-
-    display: flex;
-    flex-direction: column;
-
-    box-shadow:
-      0 4px 12px rgba(0, 0, 0, 0.12),
-      0 2px 4px rgba(0, 0, 0, 0.08);
   }
 
 
-  /* botao de X do modal */
+  /* CONTEÚDOS */
 
-  .modal>div .right {
+  .scroll-body > div {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 0 40px;
+
+  }
+
+
+  /* ESCONDE OS CONTEÚDOS QUE NÃO ESTÃO ATIVOS */
+
+  .scroll-body > div:not(.scroll-active) {
+
+    display: none;
+
+  }
+
+
+  /* CONTEÚDO ATIVO */
+
+  .scroll-body > div.scroll-active {
+
+    display: block;
+
+  }
+
+
+  /* TÍTULOS */
+
+  .scroll-body > div h1,
+  .scroll-body > div h2,
+  .scroll-body > div h3,
+  .scroll-body > div h4,
+  .scroll-body > div h5,
+  .scroll-body > div h6 {
+
+    text-align: center;
+
+    margin-top: 0;
+    margin-bottom: 14px;
+
+  }
+
+
+  /* VÍDEOS */
+
+  .scroll-body iframe {
+
+    display: block;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    border: 0;
+
+    border-radius: 4px;
+
+  }
+
+
+  /* IMAGENS */
+
+  .scroll-body img {
+
+    display: block;
+
+    max-width: 100%;
+
+    height: auto;
+
+    margin: auto;
+
+  }
+
+
+  /* =====================================================
+    BOTÕES
+    ===================================================== */
+
+  .scroll-body > button {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    z-index: 10;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, .55);
+
+    color: white;
+
+    font-size: 1.4rem;
+
     display: flex;
 
-    justify-content: flex-end;
-    /* align-items: center; */
-
-    padding-right: 17px;
-    /* padding-top: 10px;  */
-
-    gap: 10px;
-
-    margin-top: 12px;
-    margin-bottom: -10px;
-
-    font-size: 1.5rem;
-    font-weight: 600;
-
-    line-height: 1;
+    align-items: center;
+    justify-content: center;
 
     cursor: pointer;
 
-    user-select: none;
-  }
-
-
-
-
-
-
-
-  /* HEADER AUTOMÁTICO */
-  .modal h1,
-  .modal h2,
-  .modal h3 {
-    margin: 0;
-
-    padding: 16px 20px;
-
-    border-bottom: 1px solid var(--borda);
-
-    font-size: 1.2rem;
-  }
-
-  /* CONTEÚDO */
-  .modal-body {
-    padding: 20px;
-
-    overflow-y: auto;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 16px;
-
-    flex: 1;
-  }
-
-  /* CONTEÚDO, MODAIS DE AVISO */
-
-  .modal-body-aviso {
-    padding: 20px;
-
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-
-    gap: 16px;
-    flex: 1;
+    transition: .2s;
 
   }
 
 
+  /* ANTERIOR */
 
-  /* FOOTER AUTOMÁTICO */
-  .modal-body .flex:last-child {
-    padding-top: 8px;
-  }
+  .scroll-body > button[data-scroll-prev] {
 
-
-
-  /* FOOTER QUE ACOMPANHA A TELA */
-
-  .modal-footer{
-
-    display: flex;
-    justify-content: flex-start;
-
-    gap:12px;
-    padding: 16px 20px;
-    border-top: 1px solid var(--borda);
-
-    background: var(--card)
-    flex-shrink: 0;
-
+    left: 4px;
 
   }
 
 
-  /* ROLAGEM LATERAL NO MODAL PARA CONTEUDOS, VIDEOS ETC... */
+  /* PRÓXIMO */
+
+  .scroll-body > button[data-scroll-next] {
+
+    right: 4px;
+
+  }
 
 
+  /* HOVER */
+
+  .scroll-body > button:hover {
+
+    background: rgba(0, 0, 0, .8);
+
+  }
 
 
+  /* DESABILITADO */
+
+  .scroll-body > button:disabled {
+
+    opacity: .3;
+
+    cursor: default;
+
+  }
+
+
+  /* MOBILE */
+
+  @media (max-width: 600px) {
+
+    .scroll-body > div {
+
+      padding: 0 25px;
+
+    }
+
+    .scroll-body > button {
+
+      width: 34px;
+      height: 34px;
+
+      font-size: 1.1rem;
+
+    }
+
+  }
 
 
 

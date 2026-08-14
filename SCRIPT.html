@@ -853,6 +853,271 @@
 
 
 
+
+
+
+
+
+    // BOTÕES DE SCROLL PARA VIDEOS E CONTEUDOS DENTRO DOS MODAIS 
+
+  //  SCROLL BODY
+
+
+  /* INICIALIZA UM SCROLL BODY */
+
+  function iniciarScrollBody(scroll) {
+
+    if (!scroll) return;
+
+
+    /* Pega somente as DIVs que são conteúdos */
+
+    const conteudos =
+      [...scroll.children]
+        .filter(elemento =>
+          elemento.tagName === "DIV"
+        );
+
+
+    if (!conteudos.length) return;
+
+
+    /* Remove qualquer conteúdo ativo */
+
+    conteudos.forEach(conteudo => {
+
+      conteudo.classList.remove(
+        "scroll-active"
+      );
+
+    });
+
+
+    /* Primeiro conteúdo */
+
+    conteudos[0]
+      .classList.add("scroll-active");
+
+
+    /* Atualiza os botões */
+
+    atualizarBotoesScroll(
+      scroll,
+      conteudos,
+      0
+    );
+
+  }
+
+
+  /* ATUALIZA OS BOTÕES */
+
+  function atualizarBotoesScroll(
+    scroll,
+    conteudos,
+    atual
+  ) {
+
+    const anterior =
+      scroll.querySelector(
+        "[data-scroll-prev]"
+      );
+
+    const proximo =
+      scroll.querySelector(
+        "[data-scroll-next]"
+      );
+
+
+    /* BOTÃO ANTERIOR */
+
+    if (anterior) {
+
+      anterior.disabled =
+        atual <= 0;
+
+    }
+
+
+    /* BOTÃO PRÓXIMO */
+
+    if (proximo) {
+
+      proximo.disabled =
+        atual >= conteudos.length - 1;
+
+    }
+
+  }
+
+
+  /* CLIQUES */
+
+  document.addEventListener(
+    "click",
+    function(e) {
+
+      const botao =
+        e.target.closest(
+          "[data-scroll-prev], [data-scroll-next]"
+        );
+
+
+      if (!botao) return;
+
+
+      const scroll =
+        botao.closest(".scroll-body");
+
+
+      if (!scroll) return;
+
+
+      const conteudos =
+        [...scroll.children]
+          .filter(elemento =>
+            elemento.tagName === "DIV"
+          );
+
+
+      if (!conteudos.length) return;
+
+
+      /* ENCONTRA O ATUAL */
+
+      let atual =
+        conteudos.findIndex(
+          elemento =>
+            elemento.classList.contains(
+              "scroll-active"
+            )
+        );
+
+
+      /* Segurança */
+
+      if (atual === -1) {
+
+        atual = 0;
+
+        conteudos[0]
+          .classList.add("scroll-active");
+
+      }
+
+
+        // PRÓXIMO
+
+      if (
+        botao.matches(
+          "[data-scroll-next]"
+        )
+      ) {
+
+        if (
+          atual <
+          conteudos.length - 1
+        ) {
+
+          conteudos[atual]
+            .classList.remove(
+              "scroll-active"
+            );
+
+
+          atual++;
+
+
+          conteudos[atual]
+            .classList.add(
+              "scroll-active"
+            );
+
+        }
+
+      }
+
+
+        // ANTERIOR
+
+      if (
+        botao.matches(
+          "[data-scroll-prev]"
+        )
+      ) {
+
+        if (atual > 0) {
+
+          conteudos[atual]
+            .classList.remove(
+              "scroll-active"
+            );
+
+
+          atual--;
+
+
+          conteudos[atual]
+            .classList.add(
+              "scroll-active"
+            );
+
+        }
+
+      }
+
+
+      /* ATUALIZA BOTÕES */
+
+      atualizarBotoesScroll(
+        scroll,
+        conteudos,
+        atual
+      );
+
+    }
+  );
+
+
+    // INICIALIZAÇÃO
+
+  function inicializarScrollBodies() {
+
+    document
+      .querySelectorAll(".scroll-body")
+      .forEach(iniciarScrollBody);
+
+  }
+
+
+  /* Se o DOM ainda estiver carregando */
+
+  if (
+    document.readyState === "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      inicializarScrollBodies
+    );
+
+  }
+
+
+  /* Se o DOM já estiver carregado */
+
+  else {
+
+    inicializarScrollBodies();
+
+  }
+  
+
+
+
+
+
+
    
 
   // ==== FUNÇÃO PARA BOTÃO DE AJUDA ====

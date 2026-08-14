@@ -5,17 +5,12 @@
 
   *Colocar alternativas novas de*:
 
-  -Cards (dentro do card principal) com espaçamentos alinhados > FEITO
-  -checks com espaçamentos menores > FEITO
-  -footer do modal que acompanha a tela > FEITO
-  -modal que nn fecha quando a gente clica fora dele > FEITO
-  -fazer script para o modal que faz ele abrir assim que o sistema é iniciado, ou em alguma situação de carregamento > FEITO
+  -Formatação para deixar os checks alinhados um ao lado do outro > FEITO
+  -Checks com espaçamentos menores > FEITO (aprimorar)
 
+  -Fazer com que o modal tenha uma rolagem ou um clique lateral para Videos ou outros conteudos muito grandes  > EM DESENVOLVIMENTO
 
-
-  -Fazer com que o modal tenha uma rolagem ou um clique lateral para Videos ou outros conteudos muito grandes  >
-
-
+  -Formatação para deixar textos mais claros > Olhar pq nn esta pegando formatação
 
 
 
@@ -517,6 +512,7 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 
 
+
 ======Ex ATIVAÇÃO de MODAL GLOBAL=====
 
 
@@ -591,6 +587,93 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 
   ====FIM SINTAXE MODAL PADRÃO
+
+
+
+
+
+
+  ====MODAL COM BOTÃO DE ROLAGEM LATERAL PARA VIDE E OUTROS====
+
+
+    <div class="modal" id="modal-content">
+
+    <div>
+
+      <div class="right" data-modal-close>
+        ✕
+      </div>
+
+      <h2>VÍDEOS - SIGPS</h2>
+
+      <div class="modal-body">
+
+        <div class="scroll-body">           <<<===COLOCAR ESSA CLASS E COLOCAR OS CONTEUDOS DESEJADOS DENTRO DELA, *JUNTO COM OS BOTÕES*
+
+          <!-- BOTÃO ANTERIOR --
+          <button
+            type="button"
+            data-scroll-prev                      <<<===COLOCAR ESSA "TAG" NO BOTÃO (CÓPIE ELE INTEIRO PARA SER MASI FÁCIL)
+            aria-label="Conteúdo anterior">
+            ❮
+          </button>
+
+
+          <!-- CONTEÚDO 1 --
+          <div>
+            <h4>AVISE 00 - Apresentação</h4>
+
+            <iframe
+              src="https://www.youtube.com/embed/TkDv7sxq5do"
+              title="AVISE 00 - Apresentação"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+
+          <!-- CONTEÚDO 2 --
+          <div>
+            <h4>AVISE 01 - Concessão da 1ª Parcela</h4>
+
+            <iframe
+              src="https://www.youtube.com/embed/6Q_BUxtgQzc"
+              title="AVISE 01"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+
+          <!-- CONTEÚDO 3 --
+          <div>
+            <h4>AVISE 02 - Concessão da 2ª Parcela</h4>
+
+            <iframe
+              src="https://www.youtube.com/embed/UwgRzG7i9kw"
+              title="AVISE 02"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+
+          <!-- BOTÃO PRÓXIMO --
+          <button
+            type="button"
+            data-scroll-next
+            aria-label="Próximo conteúdo">
+            ❯
+          </button>
+
+        </div>
+
+
+        ***OUTROS CONTEUDOS PARA COLOCAR DPS DOS VÍDEOS***
+  
+
+      </div>
+
+    </div>
+
+  </div>
   
 
 
