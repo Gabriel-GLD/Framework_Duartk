@@ -1,7 +1,6 @@
   //<====Versão 6.4 ✋😎🤚=====>
 
 
-
 var opcoes = {
   GLOBAL              : 'global',
   LAYOUT              : 'layout',

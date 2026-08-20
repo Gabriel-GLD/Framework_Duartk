@@ -869,44 +869,24 @@
 
     if (!scroll) return;
 
-
-    /* Pega somente as DIVs que são conteúdos */
-
     const conteudos =
-      [...scroll.children]
-        .filter(elemento =>
-          elemento.tagName === "DIV"
-        );
-
+      [...scroll.querySelectorAll(
+        ":scope > [data-scroll-content]"
+      )];
 
     if (!conteudos.length) return;
 
-
-    /* Remove qualquer conteúdo ativo */
-
     conteudos.forEach(conteudo => {
-
-      conteudo.classList.remove(
-        "scroll-active"
-      );
-
+      conteudo.classList.remove("scroll-active");
     });
 
-
-    /* Primeiro conteúdo */
-
-    conteudos[0]
-      .classList.add("scroll-active");
-
-
-    /* Atualiza os botões */
+    conteudos[0].classList.add("scroll-active");
 
     atualizarBotoesScroll(
       scroll,
       conteudos,
       0
     );
-
   }
 
 
