@@ -184,11 +184,6 @@
 
 
 
-
-
-
-
-
     // ===== CONTROLADORES DE BLOQUEIO =====
 
     function atualizarControladores(nome) {
@@ -733,12 +728,19 @@
 
         if (e.key !== 'Escape') return;
 
+
         const modalAberto =
           document.querySelector('.modal.active');
 
-        if (!modalAberto) return;
+        if (modal.classList.contains('loading')){
+              return;
+        }
 
-        fecharModal(modalAberto);
+        if (e.target === modal) {
+
+          fecharModal(modalAberto);
+        }
+
 
       });
 
@@ -858,240 +860,371 @@
 
 
 
-    // BOTÕES DE SCROLL PARA VIDEOS E CONTEUDOS DENTRO DOS MODAIS 
+    
+  // SCROLL BODY
+  // Conteúdos, vídeos, imagens etc.
 
-  //  SCROLL BODY
+  (function () {
+
+    "use strict";
 
 
-  /* INICIALIZA UM SCROLL BODY */
+    // PEGA OS CONTEÚDOS
 
-  function iniciarScrollBody(scroll) {
+    function obterConteudos(scroll) {
 
-    if (!scroll) return;
+      if (!scroll) return [];
 
-    const conteudos =
-      [...scroll.querySelectorAll(
-        ":scope > [data-scroll-content]"
-      )];
+      return Array.from(
+        scroll.children
+      ).filter(elemento =>
+        elemento.hasAttribute("data-scroll-content")
+      );
 
-    if (!conteudos.length) return;
+    }
 
-    conteudos.forEach(conteudo => {
-      conteudo.classList.remove("scroll-active");
-    });
 
-    conteudos[0].classList.add("scroll-active");
+    // MOSTRA SOMENTE UM CONTEÚDO
 
-    atualizarBotoesScroll(
+    function mostrarConteudo(
+      conteudos,
+      indice
+    ) {
+
+      conteudos.forEach(
+        (conteudo, i) => {
+
+          conteudo.hidden =
+            i !== indice;
+
+        }
+      );
+
+    }
+
+
+    // ATUALIZA OS BOTÕES
+
+    function atualizarBotoesScroll(
       scroll,
       conteudos,
-      0
-    );
-  }
+      atual
+    ) {
+
+      if (!scroll) return;
 
 
-  /* ATUALIZA OS BOTÕES */
-
-  function atualizarBotoesScroll(
-    scroll,
-    conteudos,
-    atual
-  ) {
-
-    const anterior =
-      scroll.querySelector(
-        "[data-scroll-prev]"
-      );
-
-    const proximo =
-      scroll.querySelector(
-        "[data-scroll-next]"
-      );
-
-
-    /* BOTÃO ANTERIOR */
-
-    if (anterior) {
-
-      anterior.disabled =
-        atual <= 0;
-
-    }
-
-
-    /* BOTÃO PRÓXIMO */
-
-    if (proximo) {
-
-      proximo.disabled =
-        atual >= conteudos.length - 1;
-
-    }
-
-  }
-
-
-  /* CLIQUES */
-
-  document.addEventListener(
-    "click",
-    function(e) {
-
-      const botao =
-        e.target.closest(
-          "[data-scroll-prev], [data-scroll-next]"
+      const anterior =
+        scroll.querySelector(
+          "[data-scroll-prev]"
         );
 
 
-      if (!botao) return;
+      const proximo =
+        scroll.querySelector(
+          "[data-scroll-next]"
+        );
 
 
-      const scroll =
-        botao.closest(".scroll-body");
+      // ANTERIOR
 
+      if (anterior) {
+
+        anterior.disabled =
+          atual <= 0;
+
+      }
+
+
+      // PRÓXIMO
+
+      if (proximo) {
+
+        proximo.disabled =
+          atual >= conteudos.length - 1;
+
+      }
+
+    }
+
+
+    // INICIALIZA UM SCROLL-BODY
+
+    function iniciarScrollBody(scroll) {
 
       if (!scroll) return;
 
 
       const conteudos =
-        [...scroll.children]
-          .filter(elemento =>
-            elemento.tagName === "DIV"
-          );
+        obterConteudos(scroll);
 
 
       if (!conteudos.length) return;
 
 
-      /* ENCONTRA O ATUAL */
+      // Começa no primeiro
 
-      let atual =
-        conteudos.findIndex(
-          elemento =>
-            elemento.classList.contains(
-              "scroll-active"
-            )
-        );
+      mostrarConteudo(
+        conteudos,
+        0
+      );
 
 
-      /* Segurança */
+      // Marca como inicializado
 
-      if (atual === -1) {
-
-        atual = 0;
-
-        conteudos[0]
-          .classList.add("scroll-active");
-
-      }
+      scroll.dataset.scrollInitialized =
+        "true";
 
 
-        // PRÓXIMO
-
-      if (
-        botao.matches(
-          "[data-scroll-next]"
-        )
-      ) {
-
-        if (
-          atual <
-          conteudos.length - 1
-        ) {
-
-          conteudos[atual]
-            .classList.remove(
-              "scroll-active"
-            );
-
-
-          atual++;
-
-
-          conteudos[atual]
-            .classList.add(
-              "scroll-active"
-            );
-
-        }
-
-      }
-
-
-        // ANTERIOR
-
-      if (
-        botao.matches(
-          "[data-scroll-prev]"
-        )
-      ) {
-
-        if (atual > 0) {
-
-          conteudos[atual]
-            .classList.remove(
-              "scroll-active"
-            );
-
-
-          atual--;
-
-
-          conteudos[atual]
-            .classList.add(
-              "scroll-active"
-            );
-
-        }
-
-      }
-
-
-      /* ATUALIZA BOTÕES */
+      // Atualiza botões
 
       atualizarBotoesScroll(
         scroll,
         conteudos,
-        atual
+        0
       );
 
     }
-  );
+
+
+    // CLIQUE NOS BOTÕES
+
+    document.addEventListener(
+      "click",
+      function (e) {
+
+
+        const botao =
+          e.target.closest(
+            "[data-scroll-prev], [data-scroll-next]"
+          );
+
+
+        if (!botao) return;
+
+
+        const scroll =
+          botao.closest(
+            ".scroll-body"
+          );
+
+
+        if (!scroll) return;
+
+
+        const conteudos =
+          obterConteudos(scroll);
+
+
+        if (!conteudos.length) return;
+
+
+        // Garante inicialização
+
+        if (
+          scroll.dataset.scrollInitialized !==
+          "true"
+        ) {
+
+          iniciarScrollBody(scroll);
+
+        }
+
+
+        // Descobre qual está visível
+
+        let atual =
+          conteudos.findIndex(
+            conteudo =>
+              !conteudo.hidden
+          );
+
+
+        // Segurança
+
+        if (atual === -1) {
+
+          atual = 0;
+
+        }
+
+
+        // PRÓXIMO
+
+        if (
+          botao.matches(
+            "[data-scroll-next]"
+          )
+        ) {
+
+          if (
+            atual <
+            conteudos.length - 1
+          ) {
+
+            atual++;
+
+          }
+
+        }
+
+
+        // ANTERIOR
+
+        if (
+          botao.matches(
+            "[data-scroll-prev]"
+          )
+        ) {
+
+          if (atual > 0) {
+
+            atual--;
+
+          }
+
+        }
+
+
+        // Mostra somente o atual
+
+        mostrarConteudo(
+          conteudos,
+          atual
+        );
+
+
+        // Atualiza botões
+
+        atualizarBotoesScroll(
+          scroll,
+          conteudos,
+          atual
+        );
+
+      }
+    );
+
+
+    // INICIALIZA TODOS
+
+    function inicializarScrollBodies() {
+
+      document
+        .querySelectorAll(
+          ".scroll-body"
+        )
+        .forEach(
+          iniciarScrollBody
+        );
+
+    }
+
+
+    // OBSERVA NOVOS ELEMENTOS
+    // Útil para interfaces do Apps Script
+
+    const observer =
+      new MutationObserver(
+        function (mutacoes) {
+
+          mutacoes.forEach(
+            function (mutacao) {
+
+              mutacao.addedNodes.forEach(
+                function (node) {
+
+                  if (
+                    node.nodeType !== 1
+                  ) {
+
+                    return;
+
+                  }
+
+
+                  // Se for um scroll-body
+
+                  if (
+                    node.matches &&
+                    node.matches(
+                      ".scroll-body"
+                    )
+                  ) {
+
+                    iniciarScrollBody(node);
+
+                  }
+
+
+                  // Se tiver scroll-body dentro
+
+                  if (
+                    node.querySelectorAll
+                  ) {
+
+                    node
+                      .querySelectorAll(
+                        ".scroll-body"
+                      )
+                      .forEach(
+                        iniciarScrollBody
+                      );
+
+                  }
+
+                }
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+    // Observa o documento
+
+    if (document.body) {
+
+      observer.observe(
+        document.body,
+        {
+          childList: true,
+          subtree: true
+        }
+      );
+
+    }
 
 
     // INICIALIZAÇÃO
 
-  function inicializarScrollBodies() {
+    function inicializar() {
 
-    document
-      .querySelectorAll(".scroll-body")
-      .forEach(iniciarScrollBody);
+      inicializarScrollBodies();
 
-  }
+    }
 
 
-  /* Se o DOM ainda estiver carregando */
+    if (
+      document.readyState ===
+      "loading"
+    ) {
 
-  if (
-    document.readyState === "loading"
-  ) {
+      document.addEventListener(
+        "DOMContentLoaded",
+        inicializar
+      );
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      inicializarScrollBodies
-    );
+    } else {
 
-  }
+      inicializar();
+
+    }
 
 
-  /* Se o DOM já estiver carregado */
-
-  else {
-
-    inicializarScrollBodies();
-
-  }
-  
+  })();
 
 
 

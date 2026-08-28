@@ -116,9 +116,10 @@
 
 
 
-  /* DEIXA A LETRA  */
-  text-clean {
-    opacity: 0.7;
+  /* DEIXA OS TEXTOS MAIS TRASPARENTE */
+  .text-clean {
+    color: var(--muted);
+    opacity: 0.5;
   }
 
   /* FIM (INPUTS E SUAS VARIANTES) */
@@ -792,7 +793,14 @@
 
 
 
-    /* ROLAGEM LATERAL NO MODAL PARA CONTEUDOS, VIDEOS ETC... */
+
+
+
+
+  /* =====================================================
+    SCROLL BODY
+    Conteúdos, vídeos, imagens etc.
+    ===================================================== */
 
   .scroll-body {
 
@@ -804,8 +812,8 @@
 
   }
 
-
-  /* CONTEÚDOS */
+    
+    /* CONTEÚDOS */
 
   .scroll-body > [data-scroll-content] {
 
@@ -818,44 +826,52 @@
   }
 
 
+  /*
+    SEGURANÇA
 
+    O atributo hidden é controlado pelo JavaScript.
+    !important evita que outro CSS do framework
+    faça o conteúdo reaparecer.
+  */
 
-  /* MODAIS INATIVOS */
+  .scroll-body > [data-scroll-content][hidden] {
 
-  .scroll-body > [data-scroll-content]:not(.scroll-active) {
-
-    display: none;
-
-  }
-
-
-  /* CONTEÚDO ATIVO */
-
-  .scroll-body > [data-scroll-content].scroll-active {
-
-    display: block;
+    display: none !important;
 
   }
 
 
-  /* TÍTULOS */
+    /* TÍTULOS */
 
-  .scroll-body > [data-scroll-content] h1,
-  .scroll-body > [data-scroll-content] h2,
-  .scroll-body > [data-scroll-content] h3,
-  .scroll-body > [data-scroll-content] h4,
-  .scroll-body > [data-scroll-content] h5,
-  .scroll-body > [data-scroll-content] h6 {
+  .scroll-body
+    > [data-scroll-content]
+    h1,
+  .scroll-body
+    > [data-scroll-content]
+    h2,
+  .scroll-body
+    > [data-scroll-content]
+    h3,
+  .scroll-body
+    > [data-scroll-content]
+    h4,
+  .scroll-body
+    > [data-scroll-content]
+    h5,
+  .scroll-body
+    > [data-scroll-content]
+    h6 {
 
     text-align: center;
 
     margin-top: 0;
+
     margin-bottom: 14px;
 
   }
 
 
-  /* VÍDEOS */
+    /* VÍDEOS */
 
   .scroll-body iframe {
 
@@ -872,7 +888,7 @@
   }
 
 
-  /* IMAGENS */
+    /* IMAGENS */
 
   .scroll-body img {
 
@@ -889,7 +905,10 @@
 
     /* BOTÕES */
 
-  .scroll-body > button {
+  .scroll-body
+    > button[data-scroll-prev],
+  .scroll-body
+    > button[data-scroll-next] {
 
     position: absolute;
 
@@ -900,6 +919,7 @@
     z-index: 10;
 
     width: 40px;
+
     height: 40px;
 
     border: none;
@@ -915,6 +935,7 @@
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     cursor: pointer;
@@ -924,36 +945,44 @@
   }
 
 
-  /* ANTERIOR */
+    /* BOTÃO ANTERIOR */
 
-  .scroll-body > button[data-scroll-prev] {
+  .scroll-body
+    > button[data-scroll-prev] {
 
     left: 4px;
 
   }
 
 
-  /* PRÓXIMO */
+    /* BOTÃO PRÓXIMO */
 
-  .scroll-body > button[data-scroll-next] {
+  .scroll-body
+    > button[data-scroll-next] {
 
     right: 4px;
 
   }
 
 
-  /* HOVER */
+    /* HOVER */
 
-  .scroll-body > button:hover {
+  .scroll-body
+    > button[data-scroll-prev]:hover,
+  .scroll-body
+    > button[data-scroll-next]:hover {
 
     background: rgba(0, 0, 0, .8);
 
   }
 
 
-  /* DESABILITADO */
+    /* DESABILITADO */
 
-  .scroll-body > button:disabled {
+  .scroll-body
+    > button[data-scroll-prev]:disabled,
+  .scroll-body
+    > button[data-scroll-next]:disabled {
 
     opacity: .3;
 
@@ -962,19 +991,25 @@
   }
 
 
-  /* MOBILE */
+    /* MOBILE */
 
   @media (max-width: 600px) {
 
-    .scroll-body > div {
+    .scroll-body
+      > [data-scroll-content] {
 
       padding: 0 25px;
 
     }
 
-    .scroll-body > button {
+
+    .scroll-body
+      > button[data-scroll-prev],
+    .scroll-body
+      > button[data-scroll-next] {
 
       width: 34px;
+
       height: 34px;
 
       font-size: 1.1rem;
@@ -982,7 +1017,6 @@
     }
 
   }
-
 
 
 

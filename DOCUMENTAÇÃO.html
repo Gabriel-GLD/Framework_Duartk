@@ -1,17 +1,20 @@
 <!-- 
 
-
   ATUALIZAÇÕES A SEREM IMPLEMENTADAS:
+
+
 
   *Colocar alternativas novas de*:
 
-  -Olhar pq alguns modais estão dando erro em outras interfaces
-  -Formatação para deixar os checks alinhados um ao lado do outro > FEITO
-  -Checks com espaçamentos menores > FEITO (aprimorar)
+  -Tirar o esc do Modal loading > FEITO + aprimorar
 
-  -Fazer com que o modal tenha uma rolagem ou um clique lateral para Videos ou outros conteudos muito grandes  > Olhar pq nn esta fincionando em outras interfaces ou dispositivos
+  -Fazer ou Procurar um modal que centraliza os conteudos dentro dele > FEITO (testar mais um pouco)
 
-  -Formatação para deixar textos mais claros > Olhar pq nn esta pegando formatação
+  -Formatação para deixar textos mais claros > FEITO
+
+  -Olhar formatação para retirar formatação padrão dos navegadores
+
+
 
 
 
@@ -105,6 +108,57 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 
 ====FIM MAIN CARDS ETC...====
+
+
+====CARDS CENTRALIZADORES DE CONTEUDO====
+
+
+  <div class= "card-center">
+
+
+    **conteúdo, (EVIRAR FORM GROUP)**
+
+
+  </div>
+
+
+
+
+
+====FIM DOS CARDS CENTRALIZADORES====
+
+
+
+
+
+
+
+
+====CARDS ALINHADOS====
+
+
+  <div class="card-aligned">   <<<<==== OS CARDS COLOCADOS DENTRO DELES FICARAM ALINHADOS
+
+    <div class= "card">
+      
+      **conteudo**
+
+    </div>
+
+    <div class= "card">
+
+      **conteudo**
+      
+    </div>
+
+
+
+  </div>
+
+
+
+
+====FIM CARDS ALINHADOS====
 
 
 
@@ -594,7 +648,7 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 
 
-  ====MODAL COM BOTÃO DE ROLAGEM LATERAL PARA VIDE E OUTROS====
+  ====MODAL COM BOTÃO DE ROLAGEM LATERAL PARA VIDEOS E OUTROS====
 
 
     <div class="modal" id="modal-content">
@@ -621,7 +675,7 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 
           <!-- CONTEÚDO 1 --
-          <div>
+          <div data-scroll-content>                            <<<< TAG PARA COLOCAR EM TODA DIV DE CONTEUDO
             <h4>AVISE 00 - Apresentação</h4>
 
             <iframe
@@ -633,7 +687,7 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 
           <!-- CONTEÚDO 2 --
-          <div>
+          <div data-scroll-content>
             <h4>AVISE 01 - Concessão da 1ª Parcela</h4>
 
             <iframe
@@ -645,7 +699,7 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
 
 
           <!-- CONTEÚDO 3 --
-          <div>
+          <div data-scroll-content>
             <h4>AVISE 02 - Concessão da 2ª Parcela</h4>
 
             <iframe
@@ -859,6 +913,9 @@ EX FORMATAÇÃO *MAIN*, E COMPONENTES DENTRO DELE:
     </div>
 
   </div>
+
+
+  
 
 
 
